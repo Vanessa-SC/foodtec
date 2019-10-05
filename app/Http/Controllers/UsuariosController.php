@@ -5,10 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Usuarios;
 use DB;
+use Session;
+use Redirect;
+
 
 class UsuariosController extends Controller
 {
     public function login ($contra, $usuario){
+        //Obtener ID y volverlo global
+        $idUser = Usuarios::select('idUsuario')->where('email','=',$usuario)->where('password','=',$contra)->pluck('idUsuario')->first();
+        Session::put('idUser',$idUser);
+        echo ($IDusuario = Session::get('idUser'));
+
         try{
             $estatus = Usuarios::select('estatus')->where('email','=',$usuario)->first();
             echo json_encode($estatus);
@@ -64,7 +72,7 @@ class UsuariosController extends Controller
         }
     }
 
-    public function updateContra($id,$contra){
+    public function updateContra($contra){
         try{
             $usuario = Usuarios::find($id);
 
@@ -81,7 +89,7 @@ class UsuariosController extends Controller
         }
     }
 
-    public function updateTel($id,$telefono){
+    public function updateTel($telefono){
         try{
             $usuario = Usuarios::find($id);
 
@@ -111,21 +119,22 @@ class UsuariosController extends Controller
             echo json_encode($arr);
         }
     }
-
-    // public function desactivarCuenta($idUsuario){
-    //     try {
-    //         $usuario = Usuarios::find($idUsuario);
-
-    //         $usuario->estatus = 0;
-    //         $usuario->save();
-
-    //         echo $usuario;
-    //     }catch(\Illuminate\Database\QueryException $e){
-    //         $errorCore = $e->getMessage();
-    //         $arr = array('estado' => $errorCore);
-    //         echo json_encode($arr);
-    //     }
-    // }
+    
+    public function desactivarCuentaxID(){
+       echo $IDuser =  request()->session()->get('idUser');
+        // Session::get('idUser')
+        try {
+            $update = DB::table('usuario')
+                        ->where('idUsuario', $IDuser)
+                        ->update(['estatus' => -1]);
+           echo json_encode($update);
+           return Redirect::to('http://192.168.1.70:8100/login');
+         }catch(\Illuminate\Database\QueryException $e){
+            $errorCore = $e->getMessage();
+            $arr = array('estado' => $errorCore);
+            echo json_encode($arr);
+        }
+    }
 
 
     public function desactivarCuenta($correo){
@@ -135,6 +144,7 @@ class UsuariosController extends Controller
                         ->update(['estatus' => -1]);
 
             echo $update;
+            return Redirect::to('http://192.168.1.70:8100/login');
         }catch(\Illuminate\Database\QueryException $e){
             $errorCore = $e->getMessage();
             $arr = array('estado' => $errorCore);

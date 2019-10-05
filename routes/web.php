@@ -16,7 +16,8 @@ Route::get('update/{id}/{nombre}/{contra}/{telefono}', ['uses' => 'UsuariosContr
 Route::get('updateContra/{id}/{contra}', ['uses' => 'UsuariosController@updateContra']);
 Route::get('updateTel/{id}/{telefono}', ['uses' => 'UsuariosController@updateTel']);
 Route::get('perfil/{id}', ['uses' => 'UsuariosController@mostrarDatos']);
-Route::get('desactivarCuenta/{idUsuario}', ['uses' => 'UsuariosController@desactivarCuenta']);
+Route::get('desactivarCuenta/{correo}', ['uses' => 'UsuariosController@desactivarCuenta']);
+Route::get('desactivarCuentaxID', ['uses' => 'UsuariosController@desactivarCuentaxID']);
 
     //PRODUCTOS
 
