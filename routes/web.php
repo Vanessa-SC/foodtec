@@ -12,10 +12,10 @@ Route::get('/', function(){
 Route::get('login/{contra}/{usuario}', ['uses' => 'UsuariosController@login']);
 Route::get('traer', ['uses' => 'UsuariosController@traer']);
 Route::get('insertar/{nombre}/{email}/{contra}/{telefono}', ['uses' => 'UsuariosController@insertar']);
-Route::get('update/{id}/{nombre}/{contra}/{telefono}', ['uses' => 'UsuariosController@actualizarDatos']);
-Route::get('updateContra/{id}/{contra}', ['uses' => 'UsuariosController@updateContra']);
-Route::get('updateTel/{id}/{telefono}', ['uses' => 'UsuariosController@updateTel']);
-Route::get('perfil/{id}', ['uses' => 'UsuariosController@mostrarDatos']);
+Route::get('update/{nombre}/{contra}/{telefono}', ['uses' => 'UsuariosController@actualizarDatos']);
+Route::get('updateContra/{contra}', ['uses' => 'UsuariosController@updateContra']);
+Route::get('updateTel/{telefono}', ['uses' => 'UsuariosController@updateTel']);
+Route::get('perfil', ['uses' => 'UsuariosController@mostrarDatos']);
 Route::get('desactivarCuenta/{correo}', ['uses' => 'UsuariosController@desactivarCuenta']);
 Route::get('desactivarCuentaxID', ['uses' => 'UsuariosController@desactivarCuentaxID']);
 
@@ -32,8 +32,8 @@ Route::get('registrarRestaurante/{nombre}/{direccion}/{telefono}', ['uses' => 'R
 Route::get('restaurante/{universidad}', ['uses' => 'RestaurantesController@restaurantesUniv']);
 
     //PEDIDOS
-
-Route::get('registrarPedido/{idPago}/{idUsuario}/{idRestaurante}/{totalPedido})',['uses' => 'PedidosController@registrarPedido']);
+Route::get('insertarPedido/{idUsuario}/{idRest}/{idProd}/{precio}/{idPago}/{especs}/{totalPedido}/{ubicacion}/{cantidad}',['uses' => 'PedidosController@insertarPedido']);
+Route::get('insertarPedido/{idPago}/{idUsuario}/{idRestaurante}/{totalPedido}',['uses' => 'PedidosController@insertarPedido']);
 Route::get('consultarPedidoActual/{idUsuario}',['uses' => 'PedidosController@consultarPedidoActual']);
 Route::get('registrarPedido/{idUsuario}/{idRestaurante}/{totalPedido}',['uses' => 'PedidosController@registrarPedido']);
 

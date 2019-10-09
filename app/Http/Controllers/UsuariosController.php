@@ -11,11 +11,11 @@ use Redirect;
 
 class UsuariosController extends Controller
 {
-    public function login ($contra, $usuario){
+    public function login2 ($contra, $usuario){
         //Obtener ID y volverlo global
-        $idUser = Usuarios::select('idUsuario')->where('email','=',$usuario)->where('password','=',$contra)->pluck('idUsuario')->first();
-        Session::put('idUser',$idUser);
-        echo ($IDusuario = Session::get('idUser'));
+        // $idUser = Usuarios::select('idUsuario')->where('email','=',$usuario)->where('password','=',$contra)->pluck('idUsuario')->first();
+        // Session::put('idUser',$idUser);
+        // echo ($IDusuario = Session::get('idUser'));
 
         try{
             $estatus = Usuarios::select('estatus')->where('email','=',$usuario)->first();
@@ -74,7 +74,8 @@ class UsuariosController extends Controller
 
     public function updateContra($contra){
         try{
-            $usuario = Usuarios::find($id);
+            $IDuser =  request()->session()->get('idUser');
+            $usuario = Usuarios::find($IDuser);
 
             $usuario->password = $contra;
             $usuario->save();
@@ -91,7 +92,8 @@ class UsuariosController extends Controller
 
     public function updateTel($telefono){
         try{
-            $usuario = Usuarios::find($id);
+            $IDuser =  request()->session()->get('idUser');
+            $usuario = Usuarios::find($IDuser);
 
             $usuario->telefono = $telefono;
             $usuario->save();
@@ -106,9 +108,10 @@ class UsuariosController extends Controller
     }
 
 
-    public function mostrarDatos($id){
-        try{
-            $usuario = Usuarios::where('idUsuario',$id)->first();
+    public function mostrarDatos(){
+        try{ 
+            $IDuser =  request()->session()->get('idUser');
+            $usuario = Usuarios::where('idUsuario',$IDuser)->first();
 
                 echo $usuario;
 
@@ -139,17 +142,69 @@ class UsuariosController extends Controller
 
     public function desactivarCuenta($correo){
         try {
-            $update = DB::table('usuario')
-                        ->where('email', $correo)
-                        ->update(['estatus' => -1]);
+          
+                $update = DB::table('usuario')
+                ->where('email', $correo)
+                ->update(['estatus' => -1]);
 
-            echo $update;
-            return Redirect::to('http://192.168.1.70:8100/login');
+                if($update == 0){
+                    $arr = array('email'=> 'no existe');
+                    echo json_encode($arr);
+                } else {
+                    $arr = array('email'=> $correo);
+                    echo json_encode($arr);
+                }
+
         }catch(\Illuminate\Database\QueryException $e){
             $errorCore = $e->getMessage();
             $arr = array('estado' => $errorCore);
             echo json_encode($arr);
         }
     }
+
+
+
+    public function login ($contra, $usuario){
+        
+        try{
+            //Obtener ID y volverlo global
+           $idUser = Usuarios::select('idUsuario')->where('email','=',$usuario)->where('password','=',$contra)->pluck('idUsuario')->first();
+           Session::put('idUser',$idUser);
+           $estatus = Usuarios::select('estatus')->where('email','=',$usuario)->where('password','=',$contra)->pluck('estatus')->first();
+
+                $usuario = Usuarios::where('password','=',$contra)->where('email','=',$usuario)->first();
+                if(empty($usuario)){
+                    $arr = array('idUsuario'=> 0);
+                    echo json_encode($arr);
+                } else {
+                    if($estatus != -1){
+                        echo $usuario;
+                    } else {
+                        $arr = array('idUsuario'=> -1);
+                        echo json_encode($arr);
+                    }
+                }
+        } catch(\Illuminate\Database\QueryException $e){
+            $errorCore = $e->getInfo[1];
+            $arr = array('estado' => $errorCode);
+
+            echo json_encode($arr);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
