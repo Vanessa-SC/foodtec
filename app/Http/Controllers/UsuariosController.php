@@ -11,35 +11,6 @@ use Redirect;
 
 class UsuariosController extends Controller
 {
-    public function login2 ($contra, $usuario){
-        //Obtener ID y volverlo global
-        // $idUser = Usuarios::select('idUsuario')->where('email','=',$usuario)->where('password','=',$contra)->pluck('idUsuario')->first();
-        // Session::put('idUser',$idUser);
-        // echo ($IDusuario = Session::get('idUser'));
-
-        try{
-            $estatus = Usuarios::select('estatus')->where('email','=',$usuario)->first();
-            echo json_encode($estatus);
-            if($estatus == '{"estatus":-1}'){
-                $arr = array('resultado' => "Cuenta desactivada");
-                echo json_encode($arr);
-            } else {
-                $usuario = Usuarios::where('password','=',$contra)->where('email','=',$usuario)->first();
-
-                if(empty($usuario)){
-                    $arr = array('idUsuario'=> 0);
-                    echo json_encode($arr);
-                } else {
-                    echo $usuario;
-                }
-            }
-        } catch(\Illuminate\Database\QueryException $e){
-            $errorCore = $e->getInfo[1];
-            $arr = array('estado' => $errorCode);
-
-            echo json_encode($arr);
-        }
-    }
 
     public function traer(){
         $usuario = Usuarios::get();
@@ -162,14 +133,9 @@ class UsuariosController extends Controller
         }
     }
 
-
-
-    public function login ($contra, $usuario){
+    public function login3($contra, $usuario){
         
         try{
-            //Obtener ID y volverlo global
-           $idUser = Usuarios::select('idUsuario')->where('email','=',$usuario)->where('password','=',$contra)->pluck('idUsuario')->first();
-           Session::put('idUser',$idUser);
            $estatus = Usuarios::select('estatus')->where('email','=',$usuario)->where('password','=',$contra)->pluck('estatus')->first();
 
                 $usuario = Usuarios::where('password','=',$contra)->where('email','=',$usuario)->first();
@@ -190,6 +156,56 @@ class UsuariosController extends Controller
 
             echo json_encode($arr);
         }
+    }
+
+    public function correoExiste($correo){
+        $email = Usuarios::select('email')->where('email','=',$correo)->first();
+
+        if($email != null){
+            return true;
+        }
+    }
+
+    public function comprobarCorreo($correo){
+        $ucont = new UsuariosController;
+        if( $ucont->correoExiste($correo)){
+            return true;
+        } 
+    }
+
+    public function login($contra, $usuario){
+        
+    try{
+        $estatus = Usuarios::select('estatus')->where('email','=',$usuario)->where('password','=',$contra)->pluck('estatus')->first();
+        $uc = new UsuariosController;
+        $correoExiste = $uc->comprobarCorreo($usuario);
+
+            $usuario = Usuarios::where('password','=',$contra)->where('email','=',$usuario)->first();
+            if(empty($usuario)){
+                if($correoExiste){
+                    $arr = array('idUsuario'=> -2);
+                    echo json_encode($arr);
+                } else {
+                    $arr = array('idUsuario'=> 0);
+                    echo json_encode($arr);
+                }
+                
+            } else {
+                if($estatus != -1){
+                    echo $usuario;
+                } else {
+                    $arr = array('idUsuario'=> -1);
+                    echo json_encode($arr);
+                }
+            }
+    } catch(\Illuminate\Database\QueryException $e){
+        $errorCore = $e->getInfo[1];
+        $arr = array('estado' => $errorCode);
+
+        echo json_encode($arr);
+    }
+
+
     }
 
 

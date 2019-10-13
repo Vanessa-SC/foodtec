@@ -38,6 +38,8 @@ Route::get('consultarPedidoActual/{idUsuario}',['uses' => 'PedidosController@con
 Route::get('registrarPedido/{idUsuario}/{idRestaurante}/{totalPedido}',['uses' => 'PedidosController@registrarPedido']);
 
 
+    //RUTAS DE PRUEBA
+Route::get('comprobarCorreo/{correo}', ['uses' => 'UsuariosController@comprobarCorreo']);
 
 
 
