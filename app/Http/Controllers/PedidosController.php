@@ -10,8 +10,6 @@ use DB;
 
 class PedidosController extends Controller
 {
-    //{idPago}/{idUsuario}/{idRestaurante}/{totalPedido}
-    //http://127.0.0.1:8000/insertarPedido/idUsuario/idRest/idProd/precio/idPago(1)/Especs:ninguna/totalComp/ubicacion/cantidad
     public function registrarPedido($idUsuario,$idRestaurante,$totalPedido){
         $fecha = Carbon::now()->toDateTimeString();
         try {
@@ -33,15 +31,10 @@ class PedidosController extends Controller
     }
 
 
-    
-
-//  insertarPedido/'+idUsuario+'/'+idRestaurante+'/'+idProducto+'/'+precio+'/'+idPago+'/'+especificaciones+'/'+cantidad+"/"+totalc+'/'+ubicacion
     public function insertarPedido($idUsuario,$idRest,$idProd,$precio,$idPago,$especs,$cantidad,$totalPedido,$ubicacion){
         $fecha = Carbon::now()->toDateTimeString();
         try {
-            if($idUsuario = null){
-                $idUsuario=1;
-                 $idPedido = DB::table('pedido')
+                $idPedido = DB::table('pedido')
                 ->insertGetId([
                     'idPago' => $idPago,
                     'idUsuario' => $idUsuario,
@@ -58,8 +51,7 @@ class PedidosController extends Controller
                 } else {
                     $arr = array('resultado' => "no insertado");
                     echo json_encode($arr);
-                }   
-            }     
+                }     
         } catch(\Illuminate\Database\QueryException $e){
             $errorCode = $e->getMessage();
             $arr = array('estado' => $errorCode);
