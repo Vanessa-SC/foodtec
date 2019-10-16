@@ -48,8 +48,6 @@ class UsuariosController extends Controller
         try{
             $pass = Usuarios::where('idUsuario','=',$id)->pluck('password')->first();
             $usuario = Usuarios::find($id);
-         //   echo $contraAct .' '. $contraNew;
-          //  echo $pass;
             if($contraAct == $pass){
                // echo 'OK';
                 $usuario->password = $contraNew;
@@ -59,8 +57,6 @@ class UsuariosController extends Controller
                 $arr = array('password'=>'wrong');
                 echo json_encode($arr);
             }
-        
-
         } catch(\Illuminate\Database\QueryException $e){
             $errorCore = $e->getMessage();
             $arr = array('estado' => $errorCore);
@@ -69,15 +65,18 @@ class UsuariosController extends Controller
         }
     }
 
-    public function updateTel($telefono){
+    public function updateTel($id,$numNew){
         try{
-            $IDuser =  request()->session()->get('idUser');
-            $usuario = Usuarios::find($IDuser);
+            $usuario = Usuarios::find($id);
+            
+                $usuario->telefono = $numNew;
+                $usuario->save();
+                echo $usuario;
 
-            $usuario->telefono = $telefono;
-            $usuario->save();
-
-            echo $usuario;
+               if (empty($usuario)){
+                    $arr = array('telefono'=>'error');
+                    echo json_encode($arr);
+                }
         } catch(\Illuminate\Database\QueryException $e){
             $errorCore = $e->getMessage();
             $arr = array('estado' => $errorCore);
