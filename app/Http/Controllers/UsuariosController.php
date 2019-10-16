@@ -17,6 +17,7 @@ class UsuariosController extends Controller
         echo $usuario;
     }
 
+
     public function insertar($nombre,$email,$contra,$telefono){
         try {
             $buscar = Usuarios::where('email', $email)->first();
@@ -79,12 +80,10 @@ class UsuariosController extends Controller
     }
 
 
-    public function mostrarDatos(){
+    public function mostrarDatos($idUsuario){
         try{ 
-            $IDuser =  request()->session()->get('idUser');
-            $usuario = Usuarios::where('idUsuario',$IDuser)->first();
-
-                echo $usuario;
+            $usuario = Usuarios::where('idUsuario',$idUsuario)->first();
+            echo $usuario;
 
         } catch(\Illuminate\Database\QueryException $e){
             $errorCore = $e->getMessage();

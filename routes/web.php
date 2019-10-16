@@ -15,7 +15,7 @@ Route::get('insertar/{nombre}/{email}/{contra}/{telefono}', ['uses' => 'Usuarios
 Route::get('update/{nombre}/{contra}/{telefono}', ['uses' => 'UsuariosController@actualizarDatos']);
 Route::get('updateContra/{contra}', ['uses' => 'UsuariosController@updateContra']);
 Route::get('updateTel/{telefono}', ['uses' => 'UsuariosController@updateTel']);
-Route::get('perfil', ['uses' => 'UsuariosController@mostrarDatos']);
+Route::get('perfil/{idUsuario}', ['uses' => 'UsuariosController@mostrarDatos']);
 Route::get('desactivarCuenta/{correo}', ['uses' => 'UsuariosController@desactivarCuenta']);
 Route::get('desactivarCuentaxID', ['uses' => 'UsuariosController@desactivarCuentaxID']);
 
