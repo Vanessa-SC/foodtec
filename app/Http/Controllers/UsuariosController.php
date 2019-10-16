@@ -43,16 +43,23 @@ class UsuariosController extends Controller
             echo json_encode($arr);
         }
     }
-
-    public function updateContra($contra){
+//updateContra/'+id+'/'+contraAct+'/'+contraNew;
+    public function updateContra($id,$contraAct,$contraNew){
         try{
-            $IDuser =  request()->session()->get('idUser');
-            $usuario = Usuarios::find($IDuser);
-
-            $usuario->password = $contra;
-            $usuario->save();
-
-            echo $usuario;
+            $pass = Usuarios::where('idUsuario','=',$id)->pluck('password')->first();
+            $usuario = Usuarios::find($id);
+         //   echo $contraAct .' '. $contraNew;
+          //  echo $pass;
+            if($contraAct == $pass){
+               // echo 'OK';
+                $usuario->password = $contraNew;
+                $usuario->save();
+                echo $usuario;
+            } else {
+                $arr = array('password'=>'wrong');
+                echo json_encode($arr);
+            }
+        
 
         } catch(\Illuminate\Database\QueryException $e){
             $errorCore = $e->getMessage();
