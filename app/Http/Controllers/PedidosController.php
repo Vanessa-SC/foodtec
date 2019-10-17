@@ -40,6 +40,11 @@ class PedidosController extends Controller
         }
     }
 
+    public function mostrarPedidos (){
+        $pedido = Pedidos::get();
+        echo $pedido;
+    }
+
     public function consultarPedidoActual($idUsuario){
         $lastPedido = Pedidos::find($idUsuario)->last();
         echo $lastPedido;
