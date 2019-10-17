@@ -43,17 +43,20 @@ class UsuariosController extends Controller
             echo json_encode($arr);
         }
     }
-
-    public function updateContra($contra){
+//updateContra/'+id+'/'+contraAct+'/'+contraNew;
+    public function updateContra($id,$contraAct,$contraNew){
         try{
-            $IDuser =  request()->session()->get('idUser');
-            $usuario = Usuarios::find($IDuser);
-
-            $usuario->password = $contra;
-            $usuario->save();
-
-            echo $usuario;
-
+            $pass = Usuarios::where('idUsuario','=',$id)->pluck('password')->first();
+            $usuario = Usuarios::find($id);
+            if($contraAct == $pass){
+               // echo 'OK';
+                $usuario->password = $contraNew;
+                $usuario->save();
+                echo $usuario;
+            } else {
+                $arr = array('password'=>'wrong');
+                echo json_encode($arr);
+            }
         } catch(\Illuminate\Database\QueryException $e){
             $errorCore = $e->getMessage();
             $arr = array('estado' => $errorCore);
@@ -62,15 +65,18 @@ class UsuariosController extends Controller
         }
     }
 
-    public function updateTel($telefono){
+    public function updateTel($id,$numNew){
         try{
-            $IDuser =  request()->session()->get('idUser');
-            $usuario = Usuarios::find($IDuser);
+            $usuario = Usuarios::find($id);
+            
+                $usuario->telefono = $numNew;
+                $usuario->save();
+                echo $usuario;
 
-            $usuario->telefono = $telefono;
-            $usuario->save();
-
-            echo $usuario;
+               if (empty($usuario)){
+                    $arr = array('telefono'=>'error');
+                    echo json_encode($arr);
+                }
         } catch(\Illuminate\Database\QueryException $e){
             $errorCore = $e->getMessage();
             $arr = array('estado' => $errorCore);
