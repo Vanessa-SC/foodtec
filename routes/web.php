@@ -3,24 +3,9 @@
 
 
 // Route::get('/', 'Auth\LoginController@showLoginForm');
-// Route::get('/', function(){
-//     return view('welcome');
-// });
-
-Route::get('//', function(){
-    return view('login');
+Route::get('/', function(){
+    return view('welcome');
 });
-
-
-
-
-
-
-
-
-
-
-
 
 
     //USUARIOS

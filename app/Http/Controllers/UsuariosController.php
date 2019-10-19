@@ -85,6 +85,27 @@ class UsuariosController extends Controller
         }
     }
 
+    public function updateNombre($id,$nombre){
+        try{
+            $usuario = Usuarios::find($id);
+            
+                $usuario->nombre = $nombre;
+                $usuario->save();
+                
+                if (empty($usuario)){
+                    $arr = array('nombre'=>'error');
+                    echo json_encode($arr);
+                } else {
+                    echo $usuario;
+                }
+        } catch(\Illuminate\Database\QueryException $e){
+            $errorCore = $e->getMessage();
+            $arr = array('estado' => $errorCore);
+
+            echo json_encode($arr);
+        }
+    }
+
 
     public function mostrarDatos($idUsuario){
         try{ 
