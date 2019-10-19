@@ -44,4 +44,14 @@ class PedidosController extends Controller
         $lastPedido = Pedidos::find($idUsuario)->last();
         echo $lastPedido;
     }
+
+    public function mostrarPedidos($idPedido){
+
+
+        $ped = DB::table('pedido')
+                    ->join('pedido_producto','producto.idProducto','=','pedido_producto.idProducto')
+                     ->where( 'pedido_producto.idPedido','=',$idPedido)
+                     ->get();
+                     echo $ped;
+    }
 }

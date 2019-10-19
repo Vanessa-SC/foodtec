@@ -14,9 +14,15 @@ Route::get('login/{contra}/{usuario}', ['uses' => 'UsuariosController@login']);
 Route::get('traer', ['uses' => 'UsuariosController@traer']);
 Route::get('insertar/{nombre}/{email}/{contra}/{telefono}', ['uses' => 'UsuariosController@insertar']);
 Route::get('update/{nombre}/{contra}/{telefono}', ['uses' => 'UsuariosController@actualizarDatos']);
+<<<<<<< HEAD
 Route::get('updateContra/{id}/{contraAct}/{contraNew}', ['uses' => 'UsuariosController@updateContra']);
 Route::get('updateTel/{id}/{telefono}', ['uses' => 'UsuariosController@updateTel']);
 Route::get('updateNombre/{id}/{nombre}', ['uses' => 'UsuariosController@updateNombre']);
+=======
+Route::get('updateContra/{contra}', ['uses' => 'UsuariosController@updateContra']);
+Route::get('updatePer/{nombre}', ['uses' => 'UsuariosController@updatePer']);
+Route::get('updateTel/{telefono}', ['uses' => 'UsuariosController@updateTel']);
+>>>>>>> 5f33a253451eca141608e17c1d847c8bb2b72156
 Route::get('perfil/{idUsuario}', ['uses' => 'UsuariosController@mostrarDatos']);
 Route::get('desactivarCuenta/{correo}', ['uses' => 'UsuariosController@desactivarCuenta']);
 Route::get('desactivarCuentaxID', ['uses' => 'UsuariosController@desactivarCuentaxID']);
@@ -38,7 +44,8 @@ Route::get('insertarPedido/{idUsuario}/{idRest}/{idProd}/{precio}/{idPago}/{espe
 Route::get('insertarPedido/{idPago}/{idUsuario}/{idRestaurante}/{totalPedido}',['uses' => 'PedidosController@insertarPedido']);
 Route::get('consultarPedidoActual/{idUsuario}',['uses' => 'PedidosController@consultarPedidoActual']);
 Route::get('registrarPedido/{idUsuario}/{idRestaurante}/{totalPedido}',['uses' => 'PedidosController@registrarPedido']);
-
+Route::get('productos/{Universidad}', ['uses' => 'ProductosController@mostrarProductos']);
+Route::get('pedidos/{idUsuario}', ['uses' => 'PedidosController@mostrarPedidos']);
 
     //RUTAS DE PRUEBA
 Route::get('comprobarCorreo/{correo}', ['uses' => 'UsuariosController@comprobarCorreo']);
