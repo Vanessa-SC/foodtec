@@ -45,13 +45,39 @@ class PedidosController extends Controller
         echo $lastPedido;
     }
 
-    public function mostrarPedidos($idPedido){
+    public function mostrarPedidos($idUsuario){
+        //consulta
+        /*
+        SELECT DISTINCT 
+          pedido.idPedido, pedido.idUsuario, pedido.fecha, pedido.totalPedido
+          producto.nombre as producto, 
+          restaurante.ruta_imagen, 
+          pedido_producto.cantidad 
+        
+        FROM 
+            pedido, 
+            producto, 
+            pedido_producto, 
+            restaurante
+        WHERE 
+            pedido.idRestaurante=restaurante.idRestaurante 
+            AND pedido_producto.idProducto = producto.idProducto 
+            AND pedido_producto.idPedido = pedido.idPedido
+        ORDER BY pedido.idPedido
+        
+        */
 
+        $pedidos = DB::table('pedido')->distinct()
+                    ->join('restaurante','pedido.idRestaurante','=','restaurante.idRestaurante')
+                    ->join('pedido_producto','pedido_producto.idPedido','=','pedido.idPedido')
+                    ->join('producto','producto.idProducto','=','pedido_producto.idProducto')
+                    ->where('pedido.idUsuario','=',$idUsuario)
+                    ->select('pedido.idPedido', 'pedido.idUsuario', 'pedido.fecha', 'pedido.totalPedido',
+                    'producto.nombre as producto', 
+                    'restaurante.ruta_imagen', 
+                    'pedido_producto.cantidad')
+                    ->get();
 
-        $ped = DB::table('pedido')
-                    ->join('pedido_producto','producto.idProducto','=','pedido_producto.idProducto')
-                     ->where( 'pedido_producto.idPedido','=',$idPedido)
-                     ->get();
-                     echo $ped;
+                     echo $pedidos;
     }
 }
