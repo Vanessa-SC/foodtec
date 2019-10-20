@@ -85,7 +85,6 @@ class UsuariosController extends Controller
         }
     }
 
-<<<<<<< HEAD
     public function updateNombre($id,$nombre){
         try{
             $usuario = Usuarios::find($id);
@@ -98,19 +97,6 @@ class UsuariosController extends Controller
                     echo json_encode($arr);
                 } else {
                     echo $usuario;
-=======
-    public function updatePer($id,$nom){
-        try{
-            $usuario = Usuarios::find($id);
-            
-                $usuario->nombre = $nom;
-                $usuario->save();
-                echo $usuario;
-
-               if (empty($usuario)){
-                    $arr = array('nombre'=>'error');
-                    echo json_encode($arr);
->>>>>>> 5f33a253451eca141608e17c1d847c8bb2b72156
                 }
         } catch(\Illuminate\Database\QueryException $e){
             $errorCore = $e->getMessage();
