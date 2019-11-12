@@ -21,6 +21,10 @@ Route::get('perfil/{idUsuario}', ['uses' => 'UsuariosController@mostrarDatos']);
 Route::get('desactivarCuenta/{correo}', ['uses' => 'UsuariosController@desactivarCuenta']);
 Route::get('desactivarCuentaxID', ['uses' => 'UsuariosController@desactivarCuentaxID']);
 
+    //REPARTIDORES
+
+Route::get('loginR/{contra}/{usuario}', ['uses' => 'RepartidoresController@loginR']);
+
     //PRODUCTOS
 
 Route::get('insertarProducto/{nombre}/{descripcion}/{precio}/{idRestaurante}', ['uses' => 'ProductosController@insertarProducto']);
