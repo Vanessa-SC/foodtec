@@ -80,4 +80,35 @@ class PedidosController extends Controller
 
                      echo $pedidos;
     }
+    public function mostrarPedidosPendientes($idUsuario){
+        $pedidos = DB::table('pedido')->distinct()
+                    ->join('restaurante','pedido.idRestaurante','=','restaurante.idRestaurante')
+                    ->join('pedido_producto','pedido_producto.idPedido','=','pedido.idPedido')
+                    ->join('producto','producto.idProducto','=','pedido_producto.idProducto')
+                    ->where('pedido.idUsuario','=',$idUsuario)
+                    ->where('pedido.estado','=','en espera')
+                    ->select('pedido.idPedido', 'pedido.idUsuario', 'pedido.fecha', 'pedido.totalPedido',
+                    'producto.nombre as producto', 
+                    'restaurante.ruta_imagen', 
+                    'pedido_producto.cantidad')
+                    ->get();
+
+                     echo $pedidos;
+    }
+
+    public function mostrarPedidosEntregados($idUsuario){
+        $pedidos = DB::table('pedido')->distinct()
+                    ->join('restaurante','pedido.idRestaurante','=','restaurante.idRestaurante')
+                    ->join('pedido_producto','pedido_producto.idPedido','=','pedido.idPedido')
+                    ->join('producto','producto.idProducto','=','pedido_producto.idProducto')
+                    ->where('pedido.idUsuario','=',$idUsuario)
+                    ->where('pedido.estado','=','entregado')
+                    ->select('pedido.idPedido', 'pedido.idUsuario', 'pedido.fecha', 'pedido.totalPedido',
+                    'producto.nombre as producto', 
+                    'restaurante.ruta_imagen', 
+                    'pedido_producto.cantidad')
+                    ->get();
+
+                     echo $pedidos;
+    }
 }

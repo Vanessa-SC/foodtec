@@ -44,6 +44,8 @@ Route::get('consultarPedidoActual/{idUsuario}',['uses' => 'PedidosController@con
 Route::get('registrarPedido/{idUsuario}/{idRestaurante}/{totalPedido}',['uses' => 'PedidosController@registrarPedido']);
 Route::get('productos/{Universidad}', ['uses' => 'ProductosController@mostrarProductos']);
 Route::get('pedidos/{idUsuario}', ['uses' => 'PedidosController@mostrarPedidos']);
+Route::get('pedidosPendientes/{idUsuario}', ['uses' => 'PedidosController@mostrarPedidosPendientes']);
+Route::get('pedidosEntregados/{idUsuario}', ['uses' => 'PedidosController@mostrarPedidosEntregados']);
 
     //RUTAS DE PRUEBA
 Route::get('comprobarCorreo/{correo}', ['uses' => 'UsuariosController@comprobarCorreo']);
